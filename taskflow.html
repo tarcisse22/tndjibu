@@ -9,6 +9,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body{
   font-family:'Poppins',sans-serif;
   background:#f1f5f9;
@@ -32,12 +33,18 @@ h1{
 .column{
   background:#ffffff;
   width:300px;
-  min-height:400px;
+  min-height:420px;
   border-radius:12px;
   padding:1rem;
   box-shadow:0 8px 20px rgba(0,0,0,0.05);
   display:flex;
   flex-direction:column;
+  transition:.2s;
+}
+
+.column.drag-over{
+  background:#eef6fa;
+  border:2px dashed #244D61;
 }
 
 .column h2{
@@ -54,6 +61,12 @@ h1{
   margin-bottom:10px;
   cursor:grab;
   font-size:0.9rem;
+  transition:.2s;
+}
+
+.task:hover{
+  background:#dbe4f0;
+  transform:translateY(-2px);
 }
 
 .task:active{
@@ -72,6 +85,7 @@ h1{
   border-radius:8px;
   border:1px solid #cbd5e1;
   outline:none;
+  font-family:'Poppins',sans-serif;
 }
 
 .add-task button{
@@ -82,34 +96,65 @@ h1{
   background:#244D61;
   color:white;
   cursor:pointer;
+  transition:.2s;
 }
 
 .add-task button:hover{
   opacity:0.9;
+}
+
+.back-link{
+  display:block;
+  margin-bottom:1.5rem;
+  color:#244D61;
+  text-decoration:none;
+  font-size:0.9rem;
 }
 </style>
 </head>
 
 <body>
 
+<a href="index.html" class="back-link">← Back to Portfolio</a>
+
 <h1>TaskFlow — Minimal Kanban Board</h1>
 
 <div class="add-task">
-  <input type="text" id="taskInput" placeholder="Enter new task...">
+  <input 
+    type="text" 
+    id="taskInput" 
+    placeholder="Enter new task..."
+    onkeydown="handleKey(event)"
+  >
   <button onclick="addTask()">Add</button>
 </div>
 
 <div class="board">
 
-  <div class="column" ondragover="allowDrop(event)" ondrop="drop(event)" id="todo">
+  <div class="column" 
+       ondragover="allowDrop(event)" 
+       ondrop="drop(event)" 
+       ondragenter="highlight(event)"
+       ondragleave="unhighlight(event)"
+       id="todo">
     <h2>To Do</h2>
   </div>
 
-  <div class="column" ondragover="allowDrop(event)" ondrop="drop(event)" id="inprogress">
+  <div class="column" 
+       ondragover="allowDrop(event)" 
+       ondrop="drop(event)" 
+       ondragenter="highlight(event)"
+       ondragleave="unhighlight(event)"
+       id="inprogress">
     <h2>In Progress</h2>
   </div>
 
-  <div class="column" ondragover="allowDrop(event)" ondrop="drop(event)" id="done">
+  <div class="column" 
+       ondragover="allowDrop(event)" 
+       ondrop="drop(event)" 
+       ondragenter="highlight(event)"
+       ondragleave="unhighlight(event)"
+       id="done">
     <h2>Done</h2>
   </div>
 
@@ -118,6 +163,12 @@ h1{
 <script>
 let draggedTask = null;
 
+function handleKey(event){
+  if(event.key === "Enter"){
+    addTask();
+  }
+}
+
 function addTask() {
   const input = document.getElementById("taskInput");
   const value = input.value.trim();
@@ -125,7 +176,9 @@ function addTask() {
 
   const task = createTaskElement(value);
   document.getElementById("todo").appendChild(task);
+
   input.value = "";
+  input.focus();
   saveBoard();
 }
 
@@ -139,6 +192,14 @@ function createTaskElement(text){
     draggedTask = task;
   });
 
+  task.addEventListener("dragend", function(){
+    draggedTask = null;
+    document.querySelectorAll(".column").forEach(col =>
+      col.classList.remove("drag-over")
+    );
+  });
+
+  // Double click to delete
   task.addEventListener("dblclick", function(){
     task.remove();
     saveBoard();
@@ -151,10 +212,19 @@ function allowDrop(event){
   event.preventDefault();
 }
 
+function highlight(event){
+  event.currentTarget.classList.add("drag-over");
+}
+
+function unhighlight(event){
+  event.currentTarget.classList.remove("drag-over");
+}
+
 function drop(event){
   event.preventDefault();
   if(draggedTask){
     event.currentTarget.appendChild(draggedTask);
+    event.currentTarget.classList.remove("drag-over");
     saveBoard();
   }
 }
