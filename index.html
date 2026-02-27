@@ -80,7 +80,7 @@ nav a:hover{
 .hero-text{flex:1;min-width:280px;}
 
 .hero-text h1{
-  font-size:2.5rem;
+  font-size:2.6rem;
   margin-bottom:1rem;
 }
 
@@ -132,6 +132,14 @@ nav a:hover{
   border-radius:50%;
   object-fit:cover;
   box-shadow:0 15px 35px rgba(0,0,0,.15);
+  animation:float 4s ease-in-out infinite;
+}
+
+/* Floating animation */
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0);}
 }
 
 /* SECTION TITLES */
@@ -157,7 +165,7 @@ h2{
 }
 
 .project-card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-6px);
   box-shadow:0 12px 28px rgba(0,0,0,.08);
 }
 
@@ -185,7 +193,7 @@ h2{
   font-weight:500;
 }
 
-/* CONTACT - SOCIAL ICONS */
+/* CONTACT */
 .social-icons{
   display:flex;
   gap:20px;
@@ -223,6 +231,25 @@ footer{
   color:#64748b;
 }
 
+/* FADE IN ANIMATION */
+.fade-in{
+  opacity:0;
+  transform:translateY(30px);
+  animation:fadeUp 1s ease forwards;
+}
+
+.fade-in-delay-1{animation-delay:.2s;}
+.fade-in-delay-2{animation-delay:.4s;}
+.fade-in-delay-3{animation-delay:.6s;}
+.fade-in-delay-4{animation-delay:.8s;}
+
+@keyframes fadeUp{
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
 /* RESPONSIVE */
 @media(max-width:768px){
   .hero{
@@ -233,30 +260,12 @@ footer{
     display:none;
   }
 }
-  /* FADE IN ANIMATIONS */
-.fade-in{
-  opacity:0;
-  transform:translateY(30px);
-  animation:fadeUp 1s ease forwards;
-}
-
-.fade-in-delay-1{ animation-delay:.2s; }
-.fade-in-delay-2{ animation-delay:.4s; }
-.fade-in-delay-3{ animation-delay:.6s; }
-.fade-in-delay-4{ animation-delay:.8s; }
-
-@keyframes fadeUp{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
 </style>
 </head>
 
 <body>
 
-<header>
+<header class="fade-in">
   <div class="logo">
     <img src="Profile headder .jpeg" alt="Profile">
     Tarcisse Ndjibu
@@ -270,8 +279,7 @@ footer{
   </nav>
 </header>
 
-<!-- HERO -->
-<section class="hero">
+<section class="hero fade-in fade-in-delay-1">
   <div class="hero-text">
     <h1>Hi, My Name is <span>Tarcisse Ndjibu</span></h1>
     <p>
@@ -291,8 +299,7 @@ footer{
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
+<section id="about" class="fade-in fade-in-delay-2">
   <h2>About Me</h2>
   <p>
     I am passionate about clean code, structured problem-solving, and building
@@ -301,8 +308,7 @@ footer{
   </p>
 </section>
 
-<!-- PROJECTS -->
-<section id="projects">
+<section id="projects" class="fade-in fade-in-delay-3">
   <h2>Projects</h2>
   <div class="projects-grid">
     <div class="project-card">
@@ -316,8 +322,7 @@ footer{
   </div>
 </section>
 
-<!-- SKILLS -->
-<section id="skills">
+<section id="skills" class="fade-in fade-in-delay-4">
   <h2>Skills</h2>
   <div class="skills">
     <div class="skill">HTML</div>
@@ -329,8 +334,7 @@ footer{
   </div>
 </section>
 
-<!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="fade-in fade-in-delay-4">
   <h2>Contact</h2>
 
   <div class="social-icons">
@@ -348,22 +352,9 @@ footer{
   </div>
 </section>
 
-<footer>
+<footer class="fade-in fade-in-delay-4">
   © 2026 Tarcisse Ndjibu
 </footer>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
